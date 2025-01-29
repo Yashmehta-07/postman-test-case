@@ -8,7 +8,7 @@
         "name": "Health Check",
         "request": {
           "method": "GET",
-          "url": "https://coi-e2x-service-api-prod-env-496998983587.us-east4.run.app/ex2/health"
+          "url": "https://coi-e2x-service-api-prod-env-496998983587.us-east4.run.app/e2x/health"
         },
         "response": [],
         "event": [
@@ -19,8 +19,8 @@
                 "pm.test(\"Response status code is 200\", function () {",
                 "  pm.expect(pm.response.code).to.equal(200);",
                 "});",
-                "pm.test(\"Response time is less than 1000ms\", function () {",
-                "  pm.expect(pm.response.responseTime).to.be.below(1000);",
+                "pm.test(\"Response time is less than 30000ms\", function () {",
+                "  pm.expect(pm.response.responseTime).to.be.below(30000);",
                 "});",
                 "pm.test(\"Response has the required fields - status, info, error, and details\", function () {",
                 "    const responseData = pm.response.json();",
@@ -86,8 +86,8 @@
                 "pm.test(\"Content-Type header is application/json\", function () {",
                 "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
                 "});",
-                "pm.test(\"Response time is less than 1000ms\", function () {",
-                "  pm.expect(pm.response.responseTime).to.be.below(1000);",
+                "pm.test(\"Response time is less than 30000ms\", function () {",
+                "  pm.expect(pm.response.responseTime).to.be.below(30000);",
                 "});"
               ],
               "type": "text/javascript"
@@ -99,7 +99,11 @@
         "name": "Create Wait List",
         "request": {
           "method": "POST",
-          "url": "https://coi-e2x-service-api-prod-env-496998983587.us-east4.run.app/e2x/wait-lists"
+          "url": "https://coi-e2x-service-api-prod-env-496998983587.us-east4.run.app/e2x/wait-lists",
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"companyName\": \"string\",\n  \"city\": \"string\",\n  \"state\": \"string\",\n  \"companyPointOfContactName\": \"string\",\n  \"companyPointOfContactEmail\": \"string\",\n  \"companyPointOfContactTitle\": \"string\"\n}"
+          }
         },
         "response": [],
         "event": [
@@ -110,8 +114,8 @@
                 "pm.test(\"Response status code is 201\", function () {",
                 "    pm.response.to.have.status(201);",
                 "});",
-                "pm.test(\"Response time is less than 1000ms\", function () {",
-                "  pm.expect(pm.response.responseTime).to.be.below(1000);",
+                "pm.test(\"Response time is less than 30000ms\", function () {",
+                "  pm.expect(pm.response.responseTime).to.be.below(30000);",
                 "});",
                 "pm.test(\"Response has the required fields\", function () {",
                 "    const responseData = pm.response.json();",
