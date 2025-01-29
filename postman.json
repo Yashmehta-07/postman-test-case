@@ -99,24 +99,7 @@
         "name": "Create Wait List",
         "request": {
           "method": "POST",
-          "url": "https://coi-e2x-service-api-prod-env-496998983587.us-east4.run.app/e2x/wait-lists",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "body": {
-            "mode": "raw",
-            "raw": JSON.stringify({
-              "companyName": "string",
-              "city": "string",
-              "state": "string",
-              "companyPointOfContactName": "string",
-              "companyPointOfContactEmail": "string",
-              "companyPointOfContactTitle": "string"
-            }, null, 2)
-          }
+          "url": "https://coi-e2x-service-api-prod-env-496998983587.us-east4.run.app/e2x/wait-lists"
         },
         "response": [],
         "event": [
