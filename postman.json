@@ -1,0 +1,156 @@
+{
+    "info": {
+      "name": "API Test Collection",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Health Check",
+        "request": {
+          "method": "GET",
+          "url": "https://coi-e2x-service-api-prod-env-496998983587.us-east4.run.app/ex2/health"
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test(\"Response status code is 200\", function () {",
+                "  pm.expect(pm.response.code).to.equal(200);",
+                "});",
+                "pm.test(\"Response time is less than 1000ms\", function () {",
+                "  pm.expect(pm.response.responseTime).to.be.below(1000);",
+                "});",
+                "pm.test(\"Response has the required fields - status, info, error, and details\", function () {",
+                "    const responseData = pm.response.json();",
+                "    pm.expect(responseData).to.be.an('object');",
+                "    pm.expect(responseData.status).to.exist;",
+                "    pm.expect(responseData.info).to.exist;",
+                "    pm.expect(responseData.error).to.exist;",
+                "    pm.expect(responseData.details).to.exist;",
+                "});",
+                "pm.test(\"Status field is not empty\", function () {",
+                "  const responseData = pm.response.json();",
+                "  pm.expect(responseData.status).to.exist.and.to.not.be.empty;",
+                "});",
+                "pm.test(\"Validate the schema of the response JSON\", function () {",
+                "    const responseData = pm.response.json();",
+                "    pm.expect(responseData).to.be.an('object');",
+                "    pm.expect(responseData).to.have.property('status');",
+                "    pm.expect(responseData).to.have.property('info').that.is.an('object');",
+                "    pm.expect(responseData.info).to.have.property('nestjs-docs').that.is.an('object');",
+                "    pm.expect(responseData).to.have.property('error').that.is.an('object');",
+                "    pm.expect(responseData).to.have.property('details').that.is.an('object');",
+                "    pm.expect(responseData.details).to.have.property('nestjs-docs').that.is.an('object');",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Get States",
+        "request": {
+          "method": "GET",
+          "url": "https://coi-e2x-service-api-prod-env-496998983587.us-east4.run.app/e2x/wait-lists/states"
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test(\"Response status code is 200\", function () {",
+                "    pm.expect(pm.response.code).to.equal(200);",
+                "});",
+                "pm.test(\"Response has the required fields - name and abbreviation\", function () {",
+                "    const responseData = pm.response.json();",
+                "    pm.expect(responseData).to.be.an('object');",
+                "    pm.expect(responseData.states).to.be.an('array');",
+                "    responseData.states.forEach(function(state) {",
+                "        pm.expect(state).to.have.property('name');",
+                "        pm.expect(state).to.have.property('abbreviation');",
+                "    });",
+                "});",
+                "pm.test(\"Name and abbreviation are non-empty strings\", function () {",
+                "  const responseData = pm.response.json();",
+                "  pm.expect(responseData).to.be.an('object');",
+                "  pm.expect(responseData.states).to.be.an('array');",
+                "  responseData.states.forEach(function(state) {",
+                "    pm.expect(state.name).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Name should not be empty\");",
+                "    pm.expect(state.abbreviation).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Abbreviation should not be empty\");",
+                "  });",
+                "});",
+                "pm.test(\"Content-Type header is application/json\", function () {",
+                "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+                "});",
+                "pm.test(\"Response time is less than 1000ms\", function () {",
+                "  pm.expect(pm.response.responseTime).to.be.below(1000);",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Create Wait List",
+        "request": {
+          "method": "POST",
+          "url": "https://coi-e2x-service-api-prod-env-496998983587.us-east4.run.app/e2x/wait-lists",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": JSON.stringify({
+              "companyName": "string",
+              "city": "string",
+              "state": "string",
+              "companyPointOfContactName": "string",
+              "companyPointOfContactEmail": "string",
+              "companyPointOfContactTitle": "string"
+            }, null, 2)
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test(\"Response status code is 201\", function () {",
+                "    pm.response.to.have.status(201);",
+                "});",
+                "pm.test(\"Response time is less than 1000ms\", function () {",
+                "  pm.expect(pm.response.responseTime).to.be.below(1000);",
+                "});",
+                "pm.test(\"Response has the required fields\", function () {",
+                "    const responseData = pm.response.json();",
+                "    pm.expect(responseData).to.be.an('object');",
+                "    pm.expect(responseData.waitListCompanyName).to.exist;",
+                "    pm.expect(responseData.waitListCompanyCity).to.exist;",
+                "    pm.expect(responseData.waitListCompanyState).to.exist;",
+                "    pm.expect(responseData.waitListCompanyContactName).to.exist;",
+                "    pm.expect(responseData.waitListCompanyContactEmail).to.exist;",
+                "    pm.expect(responseData.waitListCompanyContactTitle).to.exist;",
+                "    pm.expect(responseData.waitListCompanyId).to.exist;",
+                "});",
+                "pm.test(\"WaitListCompanyId is a non-negative integer\", function () {",
+                "    const responseData = pm.response.json();",
+                "    pm.expect(responseData.waitListCompanyId).to.exist.and.to.be.a('number');",
+                "    pm.expect(responseData.waitListCompanyId).to.be.at.least(0, \"WaitListCompanyId should be a non-negative integer\");",
+                "});"
+              ],
+              "type": "text/javascript"
+            }
+          }
+        ]
+      }
+    ]
+  }
